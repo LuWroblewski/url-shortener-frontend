@@ -74,40 +74,41 @@ export const environment = {
 
 ---
 
-## 🛠️ Instalação e Execução
-
-### Pré-requisitos
-
-- Node.js 20+
-- npm 11+
-
-### Desenvolvimento
+## 🐳 Subindo com Docker
 
 ```bash
-# Instale as dependências
-npm install
+# Configure o environment antes do build
+cp src/environments/environment.example.ts src/environments/environment.ts
+# edite com apiUrl e sentryDsn corretos
 
-# Inicie o servidor de desenvolvimento
+# Build e start do container
+docker compose up --build
+```
+
+A aplicação ficará disponível em **http://localhost:4200**.
+
+> O container roda o `ng serve` com `--host 0.0.0.0` para aceitar conexões externas. É um ambiente de desenvolvimento — para produção, considere um build estático servido via Nginx.
+
+---
+
+## 🚀 Executando o Projeto
+
+Você pode rodar o projeto de duas formas:
+
+**Com Docker** — configure o environment (veja a seção abaixo) e suba o container:
+
+```bash
+docker compose up --build
+```
+
+**Localmente** — instale as dependências e inicie o servidor de desenvolvimento:
+
+```bash
+npm install
 npm start
-# ou
-ng serve
 ```
 
 Acesse em **http://localhost:4200**
-
-### Build de Produção
-
-```bash
-npm run build
-```
-
-Os arquivos serão gerados em `dist/`.
-
-### Build em modo watch
-
-```bash
-npm run watch
-```
 
 ---
 
@@ -122,11 +123,11 @@ npm test
 
 ## 🗺️ Rotas
 
-| Rota              | Componente      | Protegida | Descrição                       |
-|-------------------|-----------------|:---------:|---------------------------------|
-| `/`               | `LoginLayout`   | ❌        | Tela de login                   |
-| `/menu/dashboard` | `Dashboard`     | ✅        | Painel principal com as URLs    |
-| `**`              | —               | —         | Redireciona para `/`            |
+| Rota              | Componente    | Protegida | Descrição                    |
+| ----------------- | ------------- | :-------: | ---------------------------- |
+| `/`               | `LoginLayout` |    ❌     | Tela de login                |
+| `/menu/dashboard` | `Dashboard`   |    ✅     | Painel principal com as URLs |
+| `**`              | —             |     —     | Redireciona para `/`         |
 
 A proteção de rota é feita no `ngOnInit` do `MainLayout`, que verifica o cookie `session` e valida o token contra o endpoint `/auth/verify`. Caso inválido, redireciona para o login.
 
@@ -147,16 +148,20 @@ O token JWT é enviado como `Authorization: Bearer <token>` em todas as requisi�
 ## 🧩 Componentes Principais
 
 ### `UrlTable`
+
 Exibe a lista de URLs do usuário autenticado com suporte a:
+
 - Copiar o link encurtado para a área de transferência
 - Excluir URL (soft delete)
 - Reativar URL desativada
 - Indicador de status (ativa / inativa)
 
 ### `CreateUrlModal`
+
 Modal com formulário para cadastrar uma nova URL. Valida se a URL começa com `http://` ou `https://` antes de enviar.
 
 ### `Header`
+
 Navbar com link para o dashboard e botão de logout (limpa o cookie e redireciona para `/`).
 
 ---
