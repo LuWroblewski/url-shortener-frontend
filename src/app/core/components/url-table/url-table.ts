@@ -27,9 +27,13 @@ export class UrlTable implements OnInit {
   readonly Copy = Copy;
   readonly Trash2 = Trash2;
   readonly RotateCcw = RotateCcw;
+
   urls = signal<UrlEntry[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  currentPage = signal(1);
+  totalPages = signal(1);
+  limit = 10;
 
   constructor(private cookieService: CookieService) {}
 
@@ -44,26 +48,36 @@ export class UrlTable implements OnInit {
     const token = this.cookieService.get('session');
 
     try {
-      const response = await fetch(`${environment.apiUrl}urls`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${environment.apiUrl}urls?page=${this.currentPage()}&limit=${this.limit}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`Erro ${response.status}: ${response.statusText}`);
       }
 
       const data = await response.json();
-      this.urls.set(data?.data ?? data);
+      this.urls.set(data.data);
+      this.totalPages.set(data.totalPages ?? 1);
     } catch (err: any) {
       this.error.set(err.message ?? 'Erro ao carregar URLs.');
       notyf.error(this.error()!);
     } finally {
       this.loading.set(false);
     }
+  }
+
+  async goToPage(page: number) {
+    if (page < 1 || page > this.totalPages()) return;
+    this.currentPage.set(page);
+    await this.fetchUrls();
   }
 
   getShortUrl(shortCode: string): string {

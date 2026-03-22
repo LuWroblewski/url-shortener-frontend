@@ -122,6 +122,8 @@ Acesse em **http://localhost:4200**
 
 **Notyf para feedback** — usado como singleton (`notyf.service.ts`) para exibir toasts de sucesso e erro de forma consistente em toda a aplicação sem acoplamento a um serviço Angular.
 
+**Paginação na listagem de URLs** — o componente `UrlTable` controla `currentPage` e `totalPages` via Signals e envia `page` e `limit` como query params para a API. A navegação entre páginas refaz o fetch automaticamente sem recarregar o componente.
+
 ---
 
 ## 🔮 Melhorias com Mais Tempo
