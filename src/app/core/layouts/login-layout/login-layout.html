@@ -1,0 +1,64 @@
+<main class="h-screen">
+  <div class="flex flex-col lg:flex-row h-full">
+    <div class="grow">
+      <img
+        src="/images/background-login.svg"
+        alt="Background Login"
+        class="w-full h-full object-cover rounded-lg"
+      />
+    </div>
+    <div class="flex justify-center items-center w-full lg:w-3/12 h-screen bg-base-100">
+      <div class="card w-full flex flex-col items-center">
+        <div class="flex text-center justify-center mt-2 lg:-mt-25 w-full">
+          <img
+            src="/images/logo.svg"
+            alt="Background Login"
+            class="w-7/12 object-cover rounded-lg"
+          />
+        </div>
+        <div class="card-body w-full">
+          <h1 class="card-title text-4xl">Login</h1>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <fieldset class="fieldset w-full">
+              <legend class="fieldset-legend">Usuário</legend>
+              <input
+                type="text"
+                formControlName="username"
+                class="input w-full"
+                placeholder="Digite seu Usuário..."
+              />
+              @if (username?.invalid && (username?.dirty || username?.touched)) {
+                <small class="text-error text-xs mt-1">
+                  @if (username?.hasError('required')) {
+                    Usuário é obrigatório.
+                  }
+                </small>
+              }
+            </fieldset>
+
+            <fieldset class="fieldset w-full">
+              <legend class="fieldset-legend">Senha</legend>
+              <input
+                type="password"
+                formControlName="password"
+                class="input w-full"
+                placeholder="Digite sua Senha..."
+              />
+              @if (password?.invalid && (password?.dirty || password?.touched)) {
+                <small class="text-error text-xs mt-1">
+                  @if (password?.hasError('required')) {
+                    Senha é obrigatória.
+                  }
+                </small>
+              }
+            </fieldset>
+            <small class="text-warning text-xs mt-1"> Esqueci a Senha. </small>
+            <button type="submit" class="btn btn-soft btn-primary w-full mt-2 lg:mt-12">
+              Entrar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
