@@ -132,6 +132,7 @@ Acesse em **http://localhost:4200**
 - **Refresh token silencioso** — hoje se o token expirar durante o uso, a próxima requisição falha e o usuário é jogado para o login sem aviso. Implementaria renovação automática em segundo plano.
 - **Testes unitários** — os arquivos `.spec.ts` foram gerados pelo CLI mas não implementados. Cobriria os componentes principais e a lógica de autenticação.
 - **Variáveis de ambiente via build** — hoje o `environment.ts` precisa ser editado manualmente antes do build. Configuraria o Angular para injetar variáveis de ambiente via `@angular/build` para facilitar deploys em pipelines de CI/CD.
+- **Versionamento semântico** — o projeto já possui version no package.json, mas sem um processo formal. Adotaria o npm version integrado ao CI/CD para que cada release gere automaticamente uma tag Git, facilitando o rastreamento de deploys e a geração de changelogs com ferramentas como conventional-changelog.
 
 ---
 
