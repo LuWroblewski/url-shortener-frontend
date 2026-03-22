@@ -1,0 +1,27 @@
+<div class="navbar bg-base-200 border-b border-base-300 px-5">
+  <div class="navbar-start gap-2">
+    <lucide-icon [img]="Link2" class="h-5 w-5" />
+    <span class="font-semibold text-base">Encurta Url</span>
+  </div>
+
+  <div class="navbar-center hidden sm:flex gap-6">
+    <a
+      routerLink="/menu/dashboard"
+      routerLinkActive="font-semibold"
+      class="text-sm text-base-content/70 hover:text-base-content transition-colors"
+    >
+      Dashboard
+    </a>
+  </div>
+
+  <div class="navbar-end gap-3">
+    <button
+      class="btn btn-ghost btn-sm"
+      class="tooltip tooltip-bottom"
+      data-tip="Sair"
+      (click)="logout()"
+    >
+      <lucide-icon [img]="LogOut" class="h-4 w-4" />
+    </button>
+  </div>
+</div>
