@@ -112,6 +112,27 @@ Acesse em **http://localhost:4200**
 
 ---
 
+## 🏗️ Decisões Técnicas
+
+**Fetch nativo em vez de HttpClient** — as requisições à API usam `fetch` diretamente. Para um projeto pequeno e sem necessidade de interceptors HTTP complexos, isso reduz boilerplate sem perda de funcionalidade.
+
+**Sessão via cookie** — o token JWT é armazenado em cookie com `sameSite: Strict` e `secure: true` em vez de `localStorage`, o que oferece mais proteção contra ataques XSS.
+
+**Proteção de rota no layout** — a validação da sessão é feita no `ngOnInit` do `MainLayout` contra o endpoint `/auth/verify`, garantindo que um token expirado ou inválido redirecione o usuário para o login sem precisar de um `AuthGuard` separado.
+
+**Notyf para feedback** — usado como singleton (`notyf.service.ts`) para exibir toasts de sucesso e erro de forma consistente em toda a aplicação sem acoplamento a um serviço Angular.
+
+---
+
+## 🔮 Melhorias com Mais Tempo
+
+- **HttpClient com interceptor** — migraria para `HttpClient` com um interceptor que injeta o token automaticamente em todas as requisições autenticadas, eliminando a repetição do `Authorization` header em cada chamada.
+- **Refresh token silencioso** — hoje se o token expirar durante o uso, a próxima requisição falha e o usuário é jogado para o login sem aviso. Implementaria renovação automática em segundo plano.
+- **Testes unitários** — os arquivos `.spec.ts` foram gerados pelo CLI mas não implementados. Cobriria os componentes principais e a lógica de autenticação.
+- **Variáveis de ambiente via build** — hoje o `environment.ts` precisa ser editado manualmente antes do build. Configuraria o Angular para injetar variáveis de ambiente via `@angular/build` para facilitar deploys em pipelines de CI/CD.
+
+---
+
 ## 🧪 Testes
 
 ```bash
