@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: url-shortener-frontend
+    ports:
+      - '4200:4200'
+    restart: unless-stopped
