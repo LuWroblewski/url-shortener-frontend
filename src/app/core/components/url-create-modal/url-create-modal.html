@@ -1,0 +1,54 @@
+<button
+  class="btn btn-primary btn-sm gap-2 tooltip tooltip-bottom"
+  data-tip="Criar nova URL"
+  (click)="open()"
+>
+  <lucide-icon [img]="Plus" class="h-4 w-4" />
+  Nova URL
+</button>
+
+@if (isOpen()) {
+  <div class="modal modal-open">
+    <div class="modal-box">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <lucide-icon [img]="Link2" class="h-5 w-5" />
+          <h3 class="font-semibold text-lg">Cadastrar URL</h3>
+        </div>
+        <button class="btn btn-ghost btn-sm btn-circle" (click)="close()">
+          <lucide-icon [img]="X" class="h-4 w-4" />
+        </button>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">URL original</span>
+        </label>
+        <input
+          type="url"
+          placeholder="https://exemplo.com"
+          class="input input-bordered w-full"
+          [class.input-error]="originalUrl?.invalid && originalUrl?.touched"
+          [formControl]="$any(form.get('originalUrl'))"
+        />
+        @if (originalUrl?.invalid && originalUrl?.touched) {
+          <label class="label">
+            <span class="label-text-alt text-error">Insira uma URL válida (ex: https://...)</span>
+          </label>
+        }
+      </div>
+
+      <div class="modal-action">
+        <button class="btn btn-ghost" (click)="close()">Cancelar</button>
+        <button class="btn btn-primary" (click)="onSubmit()" [disabled]="loading()">
+          @if (loading()) {
+            <span class="loading loading-spinner loading-sm"></span>
+          } @else {
+            Cadastrar
+          }
+        </button>
+      </div>
+    </div>
+    <div class="modal-backdrop" (click)="close()"></div>
+  </div>
+}
